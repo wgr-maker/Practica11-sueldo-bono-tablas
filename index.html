@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Aquí agrego la fuente Montserrat para presentar mi consulta. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Aquí escribo el título de mi página. -->
+    <title>Consulta de Nómina</title>
+
+    <style>
+        /* Aquí elijo el fondo azul muy claro y el color de mi texto. */
+        body {
+            margin: 0;
+            padding: 60px 20px;
+            background-color: #f3f7fc;
+            color: #253b55;
+            font-family: "Montserrat", Arial, sans-serif;
+            text-align: center;
+        }
+
+        /* Aquí centro el contenido sobre un fondo blanco. */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 36px 28px;
+            background-color: #ffffff;
+            border: 1px solid #dce5f0;
+            border-radius: 12px;
+            box-shadow: 0 8px 28px rgba(23, 50, 83, 0.06);
+        }
+
+        /* Aquí doy color azul marino a mi título principal. */
+        h1 {
+            margin: 0 0 30px;
+            color: #173253;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        /* Aquí permito desplazar la tabla en pantallas pequeñas. */
+        .contenedor-tabla {
+            overflow-x: auto;
+        }
+
+        /* Aquí empieza el diseño de mi tabla centrada. */
+        table {
+            width: 100%;
+            min-width: 700px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+        }
+
+        /* Aquí uso azul marino y letras blancas en los encabezados. */
+        th {
+            padding: 17px 14px;
+            background-color: #173253;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Aquí defino los bordes y el espacio de las celdas. */
+        td {
+            height: 28px;
+            padding: 13px 14px;
+            border: 1px solid #dce5f0;
+            font-size: 14px;
+        }
+
+        /* Aquí alterno un azul muy claro entre mis filas. */
+        tbody tr:nth-child(even) {
+            background-color: #f0f5fb;
+        }
+
+        tbody tr:hover {
+            background-color: #e6eef8;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 24px 12px;
+            }
+
+            main {
+                padding: 28px 16px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- Aquí coloco el título que se verá sobre mi tabla. -->
+        <h1>Consulta de Nómina</h1>
+
+        <!-- Aquí empieza mi tabla con las siete columnas. -->
+        <div class="contenedor-tabla">
+            <table aria-label="Consulta de Nómina">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Días</th>
+                        <th scope="col">Antigüedad</th>
+                        <th scope="col">Sueldo</th>
+                        <th scope="col">Bono</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="resultado"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        // Aquí establezco el sueldo base y el bono de mi práctica.
+        let bono = 1000;
+        let sueldo_base = 15000;
+
+        // Aquí pido solamente los tres datos originales de un empleado.
+        let nombre = prompt("Ingresa nombre");
+        let dias_trabajados = Number(prompt("Ingresa días trabajados"));
+        let antiguedad = Number(prompt("Ingresa años de antigüedad"));
+
+        // Aquí calculo el sueldo de acuerdo con los días trabajados.
+        let sueldo_quincenal = (sueldo_base / 15) * dias_trabajados;
+        let bono_aplicado = 0;
+        let tiene_bono = "No";
+
+        // Aquí aplico el bono si el empleado tiene 10 años o más.
+        if (antiguedad >= 10) {
+            bono_aplicado = bono;
+            tiene_bono = "Sí";
+        }
+
+        // Aquí sumo el sueldo y el bono para obtener el total.
+        let total = sueldo_quincenal + bono_aplicado;
+
+        // Aquí preparo la primera fila con los resultados calculados.
+        let filas = `
+            <tr>
+                <td>1</td>
+                <td id="nombre-empleado"></td>
+                <td>${dias_trabajados}</td>
+                <td>${antiguedad}</td>
+                <td>$${sueldo_quincenal.toFixed(2)}</td>
+                <td>${tiene_bono}</td>
+                <td>$${total.toFixed(2)}</td>
+            </tr>
+        `;
+
+        // Aquí uso un for sencillo para crear las filas 2 a 4.
+        // Solo muestro el número y dejo vacías las otras seis celdas.
+        for (let i = 2; i <= 4; i++) {
+            filas += `
+                <tr>
+                    <td>${i}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            `;
+        }
+
+        // Aquí muestro mis filas y coloco el nombre como texto.
+        document.getElementById("resultado").innerHTML = filas;
+        document.getElementById("nombre-empleado").textContent = nombre;
+    </script>
+</body>
+</html>
